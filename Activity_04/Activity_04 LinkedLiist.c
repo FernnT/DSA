@@ -38,6 +38,7 @@ int main(){
 	
 	printf("\nAfter pop: \n");
 	pop(&head);
+	display(head);
 	visualize(head);
 	
 		return 0;
@@ -52,6 +53,13 @@ StackPtr createNode(DATA item){
 	newNode->next=NULL;
 	
 	return newNode;	
+}
+bool isEmpty(StackPtr *list){
+	if(*list==NULL){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 void push(StackPtr *list,StackPtr node){
@@ -83,15 +91,26 @@ DATA peek(StackPtr *list){
 
 void display(StackPtr list){
 	 if (list == NULL) {
-        printf("Stack is empty.\n");
+        printf("Stack is empty.\n\n\n");
     } else {
-        printf("Stack Contents: ");
-        StackPtr current = list;
-        while (current != NULL) {
-            printf(" %d |", current->data);
-            current = current->next;
-        }
-        printf("\n");
+    	int temp;
+    	StackPtr head2;
+    	initStack(&head2);
+      	
+      	while(!isEmpty(&list)){
+      		temp=peek(&list);
+      		pop(&list);
+      		printf(" %d | ",temp);
+      		push(&head2,createNode(temp));
+		  }
+		    printf("\n");
+
+        // Restore the original stack state
+     	while(!isEmpty(&head2)){
+     		temp=peek(&head2);
+     		pop(&head2);
+     		push(&list,createNode(temp));
+		 }
     }
 }
 
